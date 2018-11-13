@@ -120,11 +120,14 @@ abstract class CommandLine {
 		final String path = CmdLineClientAdapter.getEnvironmentVariable("PATH");
 		final String systemRoot = CmdLineClientAdapter.getEnvironmentVariable("SystemRoot");
 		final String aprIconv = CmdLineClientAdapter.getEnvironmentVariable("APR_ICONV_PATH");
+        final String systemDrive = CmdLineClientAdapter.getEnvironmentVariable("SystemDrive"); 
 		int i = 3;
 		if (path != null)
 			i++;
 		if (systemRoot != null)
 			i++;
+        if (systemDrive != null)
+            i++;        
 		if (aprIconv != null)
 			i++;
 		String[] lcVars = getLocaleVariables();
@@ -146,6 +149,10 @@ abstract class CommandLine {
 			env[i] = "SystemRoot=" + systemRoot;
 			i++;
 		}
+        if (systemDrive != null) {
+            env[i] = "SystemDrive=" + systemDrive;
+            i++;
+        } 
 		if (aprIconv != null) {
 			env[i] = "APR_ICONV_PATH=" + aprIconv;
 			i++;
@@ -536,6 +543,7 @@ abstract class CommandLine {
     		}
 
     		add("--non-interactive");
+            add("--no-auth-cache");
     	}
 
         protected void addConfigInfo(String configDir) {
