@@ -112,10 +112,7 @@ public class CmdLineClientAdapter extends AbstractClientAdapter {
                 int i = version.indexOf(System.getProperty("line.separator")); // NOI18N
                 version = version.substring(0,i);
                 available = true;
-                available &= version.indexOf("version 0.") == -1;
-                available &= version.indexOf("version 1.0") == -1;
-                available &= version.indexOf("version 1.1") == -1;
-                available &= version.indexOf("version 1.2") == -1;
+				available &= !version.matches(".*version ((0\\.)|(1\\.[012][\\D])).*");
 			} catch (Exception e) {
                 e.printStackTrace();
 				available = false;
