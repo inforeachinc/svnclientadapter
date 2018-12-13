@@ -19,12 +19,14 @@
 package org.tigris.subversion.svnclientadapter.commandline;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.tigris.subversion.svnclientadapter.ISVNStatus;
+import org.tigris.subversion.svnclientadapter.SVNClientException;
 import org.tigris.subversion.svnclientadapter.SVNStatusKind;
 import org.tigris.subversion.svnclientadapter.SVNStatusUnversioned;
 
@@ -100,8 +102,12 @@ public class CmdLineStatuses {
      */
     private CmdLineInfoPart getCorrespondingInfoPart(File absPath) {
         for (int i = 0; i < cmdLineInfoParts.length; i++) {
-            if (absPath.equals(cmdLineInfoParts[i].getFile())) {
-                return cmdLineInfoParts[i];
+            try {
+                if (absPath.getCanonicalPath().equals(cmdLineInfoParts[i].getFile().getCanonicalPath())) {
+                    return cmdLineInfoParts[i];
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return null;
